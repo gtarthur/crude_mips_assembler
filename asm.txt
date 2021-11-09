@@ -1,0 +1,27 @@
+li $v0, 0x0040
+li $v1, 0x1010
+li $v2, 0x000F
+li $v3, 0x00F0
+li $t0, 0x0000
+li $a0, 0x0010
+li $a1, 0x0005
+li $t1, 0x0100
+loop: slt $t3, $zero, $a1
+beq $zero, $t3, return 
+addi $a1, $a1, -1
+lh $t0, 0($a0)
+slt $t3, $t1, $t0
+beq $t3, $zero, else
+srl $v0, $v0, 3
+or $v1, $v1, $v0
+li $t2, 0xFF00
+sh $t2, 0($a0)
+j end_if 
+else: sll $v2, $v2, 2
+xor $v3, $v3, $v2
+li $t2, 0x00FF
+sh $t2, 0($a0)
+end_if: addi $a0, $a0, 2
+j loop
+return: sll $zero, $zero, 0
+
